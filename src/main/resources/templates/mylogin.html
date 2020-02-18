@@ -8,29 +8,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <!-- default header name is X-CSRF-TOKEN -->
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-
     <title>数据 - AdminLTE2定制版 | Log in</title>
 
-    <meta
-            content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
-            name="viewport">
-
-    <link rel="stylesheet"
-          href="/plugins/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet"
-          href="/plugins/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet"
-          href="/plugins/ionicons/css/ionicons.min.css">
-    <link rel="stylesheet"
-          href="/plugins/adminLTE/css/AdminLTE.css">
-    <link rel="stylesheet"
-          href="/plugins/iCheck/square/blue.css">
 </head>
-<body>
 <body class="hold-transition login-page">
+<!--引用共通header-->
+<div th:include="common.html"></div>
 <div class="login-box">
     <div class="login-logo">
         <a href="#"><b>ITCAST</b>后台管理系统</a>
@@ -94,6 +77,5 @@
         });
     });
 </script>
-</body>
 </body>
 </html>

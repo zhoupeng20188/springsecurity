@@ -1,11 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<!--<html lang="en">-->
 <head>
     <meta charset="UTF-8">
     <title>Home Page</title>
 </head>
 <body>
+<!--引用共通header-->
+<div th:include="common.html"></div>
+<div class="login-box">
 <h1>我是首页</h1>
 <a href="/content">前往内容页</a>
+<!--因为现在开启了csrf，所以需要用post方法-->
+<!--如果禁用了csrf，用a标签就行了-->
+<!--必须用post,因为只有post才会走csrf-->
+<form action="/logout" method="post">
+    <button type="submit" style="width: 50px" class="btn btn-primary btn-block btn-flat">登出</button>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+</form>
+</div>
 </body>
 </html>
