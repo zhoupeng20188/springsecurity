@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -58,24 +59,47 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        /** 放开静态资源访问，不然页面上的css无法显示
+         * 在security里这样配置就行了，不用像传统的配置继承WebMvcConfigurationSupport再addResourceHandler */
+        web.ignoring().antMatchers("/plugins/**");
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                /** 去掉csrf过滤器
+                 * 如果禁用，可能受到csrf攻击*/
                 .csrf().disable()
-                // authorizeRequests表示需要认证的request请求
+                /** authorizeRequests表示需要认证的request请求*/
                 .authorizeRequests()
-                // 设置只有ROLE_USER的权限才能访问/index页面
+                /** 放行/login*/
+                .antMatchers("/login").permitAll()
+                /** 设置只有ROLE_USER的权限才能访问/index页面*/
                 .antMatchers("/").hasRole("USER")
-                // 设置只有ROlE_ADMIN的权限才能访问/content页面
+                /** 设置只有ROlE_ADMIN的权限才能访问/content页面*/
                 .antMatchers("/content").hasRole("ADMIN")
-                // anyRequest()表示除上面之外的所有请求都需要认证
+                /** anyRequest()表示除上面之外的所有请求都需要认证*/
                 .anyRequest().authenticated()
                 .and()
-                // 默认login画面 不加下面这句会导致访问报错403
-                .formLogin().permitAll()
-                .and()
-                // httpBasic()表示支持httpBasic认证，在postman里可以选择basic auth输入用户名和密码来访问
-                .httpBasic();
+                /** 默认login画面 不加下面这句会导致访问报错403*/
+//                .formLogin().permitAll()
+                /** 自定义login画面*/
+                .formLogin().loginPage("/mylogin")
+                /** 登录成功后的页面*/
+                .successForwardUrl("/")
+                /** 这里的loginProcessingUrl值需要与自定义login画面里form表单的action地址一致
+                 * 只要与form的action地址一致就行，可以是任意值
+                 * 如果不指定loginProcessingUrl，则默认为loginPage设置的值
+                 * 如果loginProcessingUrl和loginPage都不设置，则默认值都为/login*/
+                .loginProcessingUrl("/login33")
+//                .failureForwardUrl("/error")
+                .permitAll();
+//                .and()
+        /** httpBasic()表示支持httpBasic认证，在postman里可以选择basic auth输入用户名和密码来访问*/
+//                .httpBasic();
 
 
 

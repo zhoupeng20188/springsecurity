@@ -14,6 +14,13 @@ public class ControllerTest {
         return modelAndView;
     }
 
+    @RequestMapping("/mylogin")
+    public ModelAndView mylogin(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("mylogin");
+        return modelAndView;
+    }
+
     @RequestMapping("/content")
     public ModelAndView content(){
         ModelAndView modelAndView = new ModelAndView();
