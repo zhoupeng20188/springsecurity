@@ -1,8 +1,16 @@
 <!DOCTYPE html>
-<html>
+<!-- thymeleaf模板必须引入 -->
+<html xmlns:th="http://www.thymeleaf.org">
+      <!--xmlns:security="http://www.springframework.org/schema/security">-->
+      <!--&lt;!&ndash;xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"&ndash;&gt;-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
     <title>数据 - AdminLTE2定制版 | Log in</title>
 
@@ -33,6 +41,9 @@
         <!-- /login为security内置的登录接口，方法必须为post -->
         <form action="/login33" method="post">
             <!--<security:csrfInput/>-->
+            <!-- security:csrfInput是jsp里的写法，thymeleaf里有问题，正确写法如下：
+              注意在<head>里还有_csrf的声明-->
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <div class="form-group has-feedback">
                 <input type="text" name="username" class="form-control"
                        placeholder="用户名"> <span

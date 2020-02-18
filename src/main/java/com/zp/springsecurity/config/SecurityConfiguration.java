@@ -71,8 +71,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 /** 去掉csrf过滤器
-                 * 如果禁用，可能受到csrf攻击*/
-                .csrf().disable()
+                 * 如果禁用，可能受到csrf攻击
+                 * 一般不会加上这句，会在页面上加上csrf*/
+//                .csrf().disable()
                 /** authorizeRequests表示需要认证的request请求*/
                 .authorizeRequests()
                 /** 设置只有ROLE_USER的权限才能访问/index页面*/
