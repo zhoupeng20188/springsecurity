@@ -75,8 +75,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 /** authorizeRequests表示需要认证的request请求*/
                 .authorizeRequests()
-                /** 放行/login*/
-                .antMatchers("/login").permitAll()
                 /** 设置只有ROLE_USER的权限才能访问/index页面*/
                 .antMatchers("/").hasRole("USER")
                 /** 设置只有ROlE_ADMIN的权限才能访问/content页面*/
@@ -92,7 +90,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .successForwardUrl("/")
                 /** 这里的loginProcessingUrl值需要与自定义login画面里form表单的action地址一致
                  * 只要与form的action地址一致就行，可以是任意值
-                 * 如果不指定loginProcessingUrl，则默认为loginPage设置的值
+                 * 如果不指定loginProcessingUrl，则默认为loginPage设置的值,这里也就是/mylogin，
+                 * 这时就会造成在login页面点登录按钮时就无限跳转到login页面
                  * 如果loginProcessingUrl和loginPage都不设置，则默认值都为/login*/
                 .loginProcessingUrl("/login33")
 //                .failureForwardUrl("/error")
