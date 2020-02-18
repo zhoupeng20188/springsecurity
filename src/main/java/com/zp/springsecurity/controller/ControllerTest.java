@@ -1,11 +1,25 @@
 package com.zp.springsecurity.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.security.Principal;
 
 @Controller
 public class ControllerTest {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
+    @RequestMapping("/password")
+    @ResponseBody
+    public void password(){
+        System.out.println(passwordEncoder.encode("123"));
+    }
 
     @RequestMapping("/")
     public ModelAndView index(){

@@ -1,5 +1,6 @@
 package com.zp.springsecurity.config;
 
+import com.zp.springsecurity.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,33 +27,36 @@ import java.util.stream.Collectors;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
 
-    @Override
     @Autowired
+    UserService userService;
+
+    @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(myUserDetailsService());
+        // 使用自定义的userDetailsService
+        auth.userDetailsService(userService);
     }
-
-    @Bean
-    public UserDetailsService myUserDetailsService() {
-
-        InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
-
-        String[][] usersGroupsAndRoles = {
-                {"tom", "tom", "ROLE_USER"},
-                {"admin", "admin", "ROLE_ADMIN"},
-        };
-
-        for (String[] user : usersGroupsAndRoles) {
-            List<String> authoritiesStrings = Arrays.asList(Arrays.copyOfRange(user, 2, user.length));
-            logger.info("> Registering new user: " + user[0] + " with the following Authorities[" + authoritiesStrings + "]");
-            inMemoryUserDetailsManager.createUser(new User(user[0], passwordEncoder().encode(user[1]),
-                    authoritiesStrings.stream().map(s -> new SimpleGrantedAuthority(s)).collect(Collectors.toList())));
-        }
-
-
-        return inMemoryUserDetailsManager;
-
-    }
+//
+//    @Bean
+//    public UserDetailsService myUserDetailsService() {
+//
+//        InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
+//
+//        String[][] usersGroupsAndRoles = {
+//                {"tom", "tom", "ROLE_USER"},
+//                {"admin", "admin", "ROLE_ADMIN"},
+//        };
+//
+//        for (String[] user : usersGroupsAndRoles) {
+//            List<String> authoritiesStrings = Arrays.asList(Arrays.copyOfRange(user, 2, user.length));
+//            logger.info("> Registering new user: " + user[0] + " with the following Authorities[" + authoritiesStrings + "]");
+//            inMemoryUserDetailsManager.createUser(new User(user[0], passwordEncoder().encode(user[1]),
+//                    authoritiesStrings.stream().map(s -> new SimpleGrantedAuthority(s)).collect(Collectors.toList())));
+//        }
+//
+//
+//        return inMemoryUserDetailsManager;
+//
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -80,6 +84,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").hasRole("USER")
                 /** 设置只有ROlE_ADMIN的权限才能访问/content页面*/
                 .antMatchers("/content").hasRole("ADMIN")
+                .antMatchers("/password").permitAll()
                 /** anyRequest()表示除上面之外的所有请求都需要认证*/
                 .anyRequest().authenticated()
                 .and()
