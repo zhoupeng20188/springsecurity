@@ -1,6 +1,7 @@
 package com.zp.springsecurity.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,13 @@ public class ControllerTest {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("content");
         return modelAndView;
+    }
+
+    @RequestMapping("/contentjson")
+    @ResponseBody
+    @Secured("ROLE_ADMIN")
+    public String contentJson(){
+        return "contentJson";
     }
 
     @RequestMapping("/user")
