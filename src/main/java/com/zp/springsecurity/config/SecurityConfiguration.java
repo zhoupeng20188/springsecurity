@@ -81,7 +81,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 /** authorizeRequests表示需要认证的request请求*/
                 .authorizeRequests()
                 /** 设置只有ROLE_USER的权限才能访问/index页面*/
-                .antMatchers("/").hasRole("USER")
+                .antMatchers("/user").hasRole("USER")
                 /** 设置只有ROlE_ADMIN的权限才能访问/content页面*/
                 .antMatchers("/content").hasRole("ADMIN")
                 .antMatchers("/password").permitAll()

@@ -14,7 +14,7 @@ public class ControllerTest {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-    
+
     @RequestMapping("/password")
     @ResponseBody
     public void password(){
@@ -39,6 +39,13 @@ public class ControllerTest {
     public ModelAndView content(){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("content");
+        return modelAndView;
+    }
+
+    @RequestMapping("/user")
+    public ModelAndView user(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("user");
         return modelAndView;
     }
 }

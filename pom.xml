@@ -37,11 +37,11 @@
             <version>2.1.1</version>
         </dependency>
 
-        <!--&lt;!&ndash;Spring Security和thymeleaf的整合依赖&ndash;&gt;-->
-        <!--<dependency>-->
-            <!--<groupId>org.thymeleaf.extras</groupId>-->
-            <!--<artifactId>thymeleaf-extras-springsecurity4</artifactId>-->
-        <!--</dependency>-->
+        <!--Spring Security和thymeleaf的整合依赖-->
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>mysql</groupId>
