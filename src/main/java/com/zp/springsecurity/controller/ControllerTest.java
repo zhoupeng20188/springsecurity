@@ -43,6 +43,13 @@ public class ControllerTest {
         return modelAndView;
     }
 
+    /**
+     * @Secured是SpringSecurity的注解
+     * @RoleAllowed是jsr250的注解
+     * @PreAuthorize是spring的注解
+     * 以上注解需要开启对应的配置支持
+     * @return
+     */
     @RequestMapping("/contentjson")
     @ResponseBody
     @Secured("ROLE_ADMIN")
